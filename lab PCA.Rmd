@@ -1,0 +1,58 @@
+---
+title: "7.18lab"
+author: "Meng Lan"
+date: "7/18/2018"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ISLR)
+nci.labs=NCI60$labs
+nci.data=NCI60$data
+dim(nci.data)
+
+# 1 & 2
+pr.out = prcomp(nci.data,scale=TRUE) 
+#names(pr.out)
+#pr.out$rotation
+
+pve <- as.data.frame((pr.out$sdev)^2/sum((pr.out$sdev)^2))
+
+colnames(pve) <- "value"
+
+pve["cumValue"] = cumsum(pve["value"])
+pve["Principle Component"] <- c(1:64)
+
+summary(pr.out)
+
+plot(pve[,3],pve[,1],xlab="Principal Component",ylab="PVE")
+plot(pve[,3],pve[,2],xlab="Principal Component",ylab="Cumulative PVE")
+
+
+#3 & 4
+
+pr.out$x[,1:2]
+DF <- data.frame(pr.out$x[,1],pr.out$x[,2],nci.labs)
+colnames(DF) <- c("x","y","z")
+cols=rainbow(length(unique(DF$z)))
+with(DF, plot(x,y,xlab = "z1",ylab="z2",pch=19))
+with(DF, plot(x,y,col=cols[as.numeric(as.factor(DF$z))],pch=19))
+legend(x="topright", legend = levels(DF$z), col=cols[as.numeric(as.factor(DF$z))],pch=19)
+
+#5
+pr.out2 = prcomp(USArrests,scale=TRUE) 
+aaa<- pr.out2
+aaa$x = -pr.out2$x
+aaa$rotation = -aaa$rotation
+biplot(aaa,choices = 1:2,scale=0)
+
+pr.out3 = prcomp(USArrests,scale=FALSE) 
+biplot(pr.out3,choices = 1:2,scale=0)
+```
+
+## Question 2
+From the figure of proportion of variance explained, we can see that there is an elbow, indicating most variance is explained by the first 3 principal components. After 10 principal components, the variance explained is very little.
