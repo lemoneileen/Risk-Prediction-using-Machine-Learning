@@ -2,4 +2,4 @@ Goal: To distinguish between the presence and absence of cardiac arrhythmia and 
 
 Experiemented algorithms: KNN, logistic regression with elasticnet regularization, decision tree, bagging, random forest, boosting (GBDT & AdaBoost)
 
-Result: Among all these methods, bagging has the best performance with accuracy 85.7%, which outperforms the orignal VF15 algorithm with only 62% accuracy.
+Result: Among all these methods, bagging has the best performance with accuracy 85.7%, which outperforms the original VF15 algorithm with only 62% accuracy.
